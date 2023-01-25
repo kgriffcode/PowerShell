@@ -51,10 +51,11 @@ else {
 }
 
 # Get hard drive information
+try {
 if ($PSVersionTable.Platform -eq 'Unix') {
     #used
     #free
-    $volume = Get-PSDrive -Name $Drive
+    $volume = Get-PSDrive -Name $Drive -ErrorAction Stop 
     #verify volume exists
     if ($volume) {
         $total = $volume.Used + $volume.Free
@@ -78,9 +79,28 @@ else {
         throw
     }
 }
+}
+catch {
+    Add-Content -Path $logFile -Value "[ERROR] Unable to retrieve volume information."
+    Add-Content -Path $logFile -Value $_
+    throw
+}
+
 
 # Send Telegram message *if the drive is low
+if ($percentFree -le 20) {
+    try {
+        Import-Module -Name PoshGram -ErrorAction Stop
+        Add-Content -Path $logFile -Value "[INFO] Imported PoshGram successfully."
+    }
+    catch {
+        Add-Content -Path $logFile -Value "[ERROR] PoshGram could not be imported:"
+        Add-Content - path $logFile -Value $_
+    }
 
-$botToken = 'nnnnnnnnn:xxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    Add-Content -Path $logFile -Value "[INFO] Sending Telegram Notification..."
+
+    $botToken = 'nnnnnnnnn:xxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxx'
     $chat = '-nnnnnnnnn'
     Send-TelegramTextMessage -BotToken $botToken -ChatID $chat -Message "Your drive is low"
+}
