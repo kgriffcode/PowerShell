@@ -10,7 +10,8 @@ Push an email when storage is at 75% max capacity
 # Need an SMPT server to handle the email + an email subject
 # Use `Send-MailMessage` Cmdlet to deliver email
 
-$diskUsage = (Get-Volume).FreeSpace / (Get-Volume).Size
+$volume = Get-Volume -DriveLetter C
+$diskUsage = $volume.FreeSpace / $volume.Size
 if ($diskUsage -le 0.25) {
     # Declare variables for the email
     $to = "mementovivereburner@gmail.com"
