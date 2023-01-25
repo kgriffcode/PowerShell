@@ -1,11 +1,4 @@
-<# Tutorial from TechThoughts (https://www.youtube.com/watch?v=IABNJEl2ZWk)
-We want to be notified whena  drive in our home network is running low on space.
-The script will check the desired drive for free space,
-and send a Telegram notification if it is below 20%.
-All actions should be logged.
-The script should support scanning a drive the user specifies. 
-The script should support both Linux and Windows.
-#>
+# Tutorial from TechThoughts (https://www.youtube.com/watch?v=IABNJEl2ZWk)
 
 <#
 Will need to support logging

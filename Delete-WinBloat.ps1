@@ -14,5 +14,3 @@ Get-AppxPackage *zunemusic* | Remove-AppxPackage
 
 # Remove 3D Viewer / Builder
 Get-AppxPackage *3dbuilder* | Remove-AppxPackage
-
-
